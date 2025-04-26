@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Game </title>
+    <link rel="stylesheet" href="myGame.css">
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+        <div class="btns">
+            <button class="red" onclick="playGame('rock')">
+                rock
+            </button>
+            <button class="yellow" onclick="playPaper('paper')">
+                paper
+            </button>
+            <button class="green" onclick="playScissors('scissors')">
+                scissors
+            </button>
+
+            <p class="js-result rslt"></p>
+            <p class="js-moves rslt"></p>
+            <p class="js-score rslt"></p>
+
+            <button class="blue" onclick="
+               score.wins = 0;
+                score.losses = 0;
+                score.ties = 0
+             localStorage.removeItem('score');
+             updateScore();
+            ">
+                Reset score
+            </button>
+        </div>
+    <script>
+        const score = JSON.parse(localStorage.getItem('score')) || {
+            wins:  0,
+            losses: 0,
+            ties: 0
+        };
+
+        
+        updateScore();
+
+
+        function playGame(playModeMesage) {
+          let playMode =  pickComputerMove();
+
+            let displayMessage = '';
+            // rock
+          if (playMode === 'rock') {
+              displayMessage = 'You win!';
+          }
+          else if (playMode === 'paper') {
+              displayMessage = 'You lose!';
+          }
+          else if (playMode === 'scissors') {
+              displayMessage = 'Tie.'
+          }
+
+          if (displayMessage === 'You win!') {
+              score.wins += 1;
+          }
+          else if (displayMessage === 'You lose!') {
+              score.losses += 1
+          }
+          else if (displayMessage === 'Tie.') {
+              score.ties += 1;
+          };
+
+
+          localStorage.setItem('score',JSON.stringify(score));
+
+
+          updateScore();
+
+          document.querySelector('.js-result').innerHTML = displayMessage;
+
+        document.querySelector('.js-moves').innerHTML = `You picked ${playModeMesage} - Computer picked ${playMode}`;
+          
+         
+        };
+
+        function playPaper(playPaperMode) {
+            let playMode = pickComputerMove();
+
+            let displayMessage = '';
+             // paper
+          if (playMode === 'paper') {
+              displayMessage = 'You win!';
+          }
+          else if (playMode === 'scissors') {
+              displayMessage = 'You lose!';
+          }
+          else if (playMode === 'rock') {
+              displayMessage = 'Tie.'
+          }
+
+          if (displayMessage === 'You win!') {
+              score.wins += 1;
+          }
+          else if (displayMessage === 'You lose!') {
+              score.losses += 1
+          }
+          else if (displayMessage === 'Tie.') {
+              score.ties += 1;
+          }
+
+          localStorage.setItem('score',JSON.stringify(score));
+
+
+          updateScore();
+    
+          document.querySelector('.js-result').innerHTML = displayMessage;
+
+        document.querySelector('.js-moves').innerHTML = `You picked ${playPaperMode} - Computer picked ${playMode}`;
+
+        }
+        
+        function playScissors(playScissorsMode) {
+            let playMode = pickComputerMove();
+
+            let displayMessage = '';
+             // scissors
+          if (playMode === 'scissors') {
+              displayMessage = 'You win!';
+          }
+          else if (playMode === 'rock') {
+              displayMessage = 'You lose!';
+          }
+          else if (playMode === 'paper') {
+              displayMessage = 'Tie.'
+          }
+          if (displayMessage === 'You win!') {
+              score.wins += 1;
+          }
+          else if (displayMessage === 'You lose!') {
+              score.losses += 1
+          }
+          else if (displayMessage === 'Tie.') {
+              score.ties += 1;
+          }
+
+          localStorage.setItem('score',JSON.stringify(score));
+
+          updateScore();
+          document.querySelector('.js-result').innerHTML = displayMessage;
+
+          document.querySelector('.js-moves').innerHTML = `You picked ${playScissorsMode} - Computer picked ${playMode}`;
+        }
+
+        function updateScore() {
+            document.querySelector('.js-score').innerHTML= ` Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+        }
+
+
+        function pickComputerMove() {
+            let randomNumber = Math.random();
+
+            let display = '';
+            if (randomNumber >= 0 && randomNumber < 1/3) {
+                display = 'rock';
+            }
+            else if (randomNumber >= 1/3 && randomNumber < 2/3) {
+                display = 'paper';
+            }
+            else if (randomNumber >= 2/3 && randomNumber < 1) {
+                display = 'scissors';
+            }
+            return display;
+        }
+    </script>
+</body>
+</html>
